@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">soccer</string>
+    <string name="tv_name">Статистика</string>
+    <string name="tv_a_gamer1">Команда А</string>
+    <string name="tv_b_gamer1">Команда Б</string>
+    <string name="tv_a_gamer2">Игрок 2</string>
+    <string name="tv_b_gamer2">Игрок 2</string>
+    <string name="new_game">Новая игра</string>
+    <string name="choose_side">Выбор стороны</string>
+    <string name="teams">Команды</string>
+    <string name="createTours">Создание турнира</string>
+    <string name="stat">Статистика</string>
+    <string name="share">Пошарить</string>
+    <string name="sw_plusminus">+/- голы</string>
+    <string name="goal">Гол!</string>
+    <string-array name="gamerList">
+        <item>---</item>
+        <item>ШевелёвС</item>
+        <item>КукуевР</item>
+        <item>ГорбуновВ</item>
+        <item>УрихН</item>
+        <item>РоговиковА</item>
+        <item>ГоликовС</item>
+        <item>СитновА</item>
+        <item>КиреевП</item>
+    </string-array>
+    <string name="title_activity_start">kicker</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="newGame">Новая игра</string>
+    <string name="statistica">Статистика</string>
+    <string name="games_2x2">Игра 2 на 2</string>
+    <string name="playersScreen">Игроки</string>
+    <string name="gameList22">Игры 2х2</string>
+    <string name="add_pl">Создание игрока</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_navigation">Navigation</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_players">Игроки</string>
+</resources>

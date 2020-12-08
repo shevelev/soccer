@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:icon="@drawable/icon_new_game"
+            android:id="@+id/gamePlayFragment"
+            android:title="@string/newGame" />
+        <item
+            android:icon="@drawable/icon_stat"
+            android:id="@+id/allGamesFragment"
+            android:title="@string/statistica" />
+        <item
+            android:icon="@drawable/icon_players"
+            android:id="@+id/playersListFragment"
+            android:title="@string/menu_players" />
+    </group>
+</menu>

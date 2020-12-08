@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph.xml"
+    app:startDestination="@id/allGamesFragment">
+
+    <fragment
+        android:id="@+id/allGamesFragment"
+        android:name="ru.crashdev.soccer.ui.mainscreen.AllGamesFragment"
+        android:label="fragment_all_games"
+        tools:layout="@layout/fragment_all_games" >
+        <action
+            android:id="@+id/action_allGamesFragment_to_gamePlayFragment"
+            app:destination="@id/gamePlayFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gamePlayFragment"
+        android:name="ru.crashdev.soccer.ui.gamescreen.GamePlayFragment"
+        android:label="fragment_game_play"
+        tools:layout="@layout/fragment_game_play" />
+    <fragment
+        android:id="@+id/playersListFragment"
+        android:name="ru.crashdev.soccer.ui.playersscreen.PlayersListFragment"
+        android:label="fragment_players_list"
+        tools:layout="@layout/fragment_players_list" >
+        <action
+            android:id="@+id/action_playersListFragment_to_addPlayerFragment"
+            app:destination="@id/addPlayerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPlayerFragment"
+        android:name="ru.crashdev.soccer.ui.addplayersscreen.AddPlayerFragment"
+        android:label="fragment_add_player"
+        tools:layout="@layout/fragment_add_player" />
+</navigation>
