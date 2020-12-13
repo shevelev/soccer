@@ -27,10 +27,17 @@
         <action
             android:id="@+id/action_playersListFragment_to_addPlayerFragment"
             app:destination="@id/addPlayerFragment" />
+        <action
+            android:id="@+id/action_playersListFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/addPlayerFragment"
         android:name="ru.crashdev.soccer.ui.addplayersscreen.AddPlayerFragment"
         android:label="fragment_add_player"
         tools:layout="@layout/fragment_add_player" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="ru.crashdev.soccer.ui.profile.ProfileFragment"
+        android:label="ProfileFragment" />
 </navigation>

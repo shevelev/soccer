@@ -12,4 +12,8 @@ interface LocalRepositoryContract {
     fun getDataActivePlayers(): LiveData<List<Player>>
     fun savePlayer(player: Player)
     fun updateActive(playerId: Long, checked: Boolean)
+    fun deletePlayer(player: Player)
+
+    fun getProfilePlayer(playerId: Long): Player
+    fun getGamesByPlayer(): List<Games>
 }

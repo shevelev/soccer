@@ -1,6 +1,5 @@
 package ru.crashdev.soccer.ui.mainscreen
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,17 +9,13 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_all_games.*
 import kotlinx.android.synthetic.main.fragment_all_games.fab
 import kotlinx.android.synthetic.main.fragment_all_games.recyclerViewPlayers
 import kotlinx.android.synthetic.main.fragment_all_games.rootLayout
 import ru.crashdev.soccer.R
 import ru.crashdev.soccer.contract.MainActivityContract
 import ru.crashdev.soccer.repository.model.Games
-import ru.crashdev.soccer.ui.gamescreen.GamePlay
 
 class AllGamesFragment : Fragment(), MainActivityContract.View {
 
@@ -41,6 +36,8 @@ class AllGamesFragment : Fragment(), MainActivityContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        activity?.title = "Статистика игр"
+
         presenter = MainActivityPresenter(view.context)
         presenter.setView(this)
 
@@ -53,7 +50,7 @@ class AllGamesFragment : Fragment(), MainActivityContract.View {
         recyclerViewPlayers.apply {
             hasFixedSize()
             layoutManager = LinearLayoutManager(this.context)
-            addItemDecoration(DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL))
+            //addItemDecoration(DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL))
             adapter = gamesListAdapter
         }
 

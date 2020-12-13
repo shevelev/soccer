@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import ru.crashdev.soccer.contract.LocalRepositoryContract
 import ru.crashdev.soccer.repository.model.Games
 import ru.crashdev.soccer.repository.model.Player
-import ru.crashdev.soccer.ui.gamescreen.GamePlayPresenter
 
 class LocalRepo(context: Context) : LocalRepositoryContract {
 
@@ -36,5 +35,17 @@ class LocalRepo(context: Context) : LocalRepositoryContract {
 
     override fun updateActive(playerId: Long, checked: Boolean) {
         localDatabase.updateActive(playerId, checked)
+    }
+
+    override fun deletePlayer(player: Player) {
+        localDatabase.deletePlayer(player)
+    }
+
+    override fun getProfilePlayer(playerId: Long): Player {
+        return localDatabase.getProfilePlayer(playerId)
+    }
+
+    override fun getGamesByPlayer(): List<Games> {
+        return localDatabase.getGamesByPlayer()
     }
 }

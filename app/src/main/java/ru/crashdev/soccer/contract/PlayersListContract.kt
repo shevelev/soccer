@@ -11,6 +11,7 @@ interface PlayersListContract {
         val itemCount: Int
         fun onItemClicked(pos: Int)
         fun onBindItemView(itemView: ItemView, pos: Int)
+        fun deletePlayer(pos: Int)
     }
     interface View {}
 

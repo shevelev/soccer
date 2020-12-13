@@ -7,10 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.activity_add_player.*
+import kotlinx.android.synthetic.main.fragment_add_player.*
 import ru.crashdev.soccer.R
 import ru.crashdev.soccer.contract.AddPlayerContract
-import ru.crashdev.soccer.ui.start
 
 class AddPlayerFragment : Fragment(), AddPlayerContract.View {
 
@@ -29,6 +28,8 @@ class AddPlayerFragment : Fragment(), AddPlayerContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        activity?.title = "Добавление игрока"
 
         presenter = AddPlayerPresenter(view.context)
         presenter.setView(this)

@@ -50,4 +50,9 @@ class PlayersListPresenter(context: Context) : BasePresenter<PlayersListContract
         itemView.bindItem(items[pos])
     }
 
+    override fun deletePlayer(pos: Int) {
+        launch(Dispatchers.IO) {
+            repository.deletePlayer(items[pos])
+        }
+    }
 }

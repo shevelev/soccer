@@ -1,13 +1,18 @@
 package ru.crashdev.soccer.ui.playersscreen
 
+import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.players_list_item.view.*
+import ru.crashdev.soccer.R
 import ru.crashdev.soccer.contract.PlayersListContract
 import ru.crashdev.soccer.repository.model.Player
 
-class PlayersViewHolder(private val presenter: PlayersListPresenter, itemView: View) : RecyclerView.ViewHolder(itemView),
-PlayersListContract.ItemView {
+class PlayersViewHolder(private val presenter: PlayersListPresenter, itemView: View) :
+    RecyclerView.ViewHolder(itemView),
+    PlayersListContract.ItemView {
 
 //    init {
 //        itemView.setOnClickListener {
@@ -25,6 +30,12 @@ PlayersListContract.ItemView {
 
         itemView.playerActive.setOnClickListener {
             presenter.updateIsActive(item.playerId, itemView.playerActive.isChecked)
+        }
+
+        itemView.playerName.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putLong("playerId", item.playerId)
+            it.findNavController().navigate(R.id.profileFragment, bundle)
         }
 
     }

@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
-import kotlinx.android.synthetic.main.activity_game_play.*
+import kotlinx.android.synthetic.main.fragment_game_play.*
 import ru.crashdev.soccer.R
 import ru.crashdev.soccer.contract.GamePlayContract
 import ru.crashdev.soccer.repository.model.Player
@@ -31,6 +31,8 @@ class GamePlayFragment : Fragment(), GamePlayContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        activity?.title = "Игра 2х2"
 
         presenter = GamePlayPresenter(view.context)
         presenter.setView(this)
