@@ -19,7 +19,7 @@ class DataRepository(val localRepo: LocalRepo) : DataRepositoryContract {
         return localRepo.getDataPlayers()
     }
 
-    override fun getDataActivePlayersFromLocal(): LiveData<List<Player>> {
+    override fun getDataActivePlayersFromLocal(): List<Player> {
         return localRepo.getDataActivePlayers()
     }
 

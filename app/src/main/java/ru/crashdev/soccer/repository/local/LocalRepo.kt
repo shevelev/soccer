@@ -11,12 +11,10 @@ class LocalRepo(context: Context) : LocalRepositoryContract {
     private val localDatabase = SoccerDB.getInstance(context).gamesDao()
     private val allGames: LiveData<List<Games>>
     private val allPlayers: LiveData<List<Player>>
-    private val allActivePlayers: LiveData<List<Player>>
 
     init {
         allGames = localDatabase.getGamesList()
         allPlayers = localDatabase.getPlayersList()
-        allActivePlayers = localDatabase.getActivePlayersList()
     }
 
     override fun getDataGames() = allGames
@@ -25,8 +23,12 @@ class LocalRepo(context: Context) : LocalRepositoryContract {
         localDatabase.insert(game)
     }
 
+    override fun updatePlayer(playerId: Long, goal: Int, missed: Int) {
+        localDatabase.updatePlayer(playerId, goal, missed)
+    }
+
     override fun getDataPlayers() = allPlayers
-    override fun getDataActivePlayers() = allActivePlayers
+    override fun getDataActivePlayers() = localDatabase.getActivePlayersList()
 
 
     override fun savePlayer(player: Player) {

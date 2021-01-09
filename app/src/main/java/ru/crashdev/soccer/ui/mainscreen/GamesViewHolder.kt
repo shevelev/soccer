@@ -1,5 +1,6 @@
 package ru.crashdev.soccer.ui.mainscreen
 
+import android.graphics.Color
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.games_list_item.view.*
@@ -14,5 +15,10 @@ class GamesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         itemView.plb2.text = "${item.players.playerB2} (${item.points.point_B2})"
         itemView.pointA.text = item.pointA.toString()
         itemView.pointB.text = item.pointB.toString()
+
+        when (adapterPosition%2) {
+            0 -> itemView.setBackgroundColor(Color.argb(45, 0, 255, 43))
+            1 -> itemView.setBackgroundColor(Color.argb(45,255,255,0))
+        }
     }
 }

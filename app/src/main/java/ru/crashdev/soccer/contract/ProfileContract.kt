@@ -11,5 +11,6 @@ interface ProfileContract {
     interface View {
         fun showPlayer(player: Player)
         fun showScorredAndMissed(allGames: Int, missedGames: Int, games: List<Games>)
+        fun showProgressBars(scored: Double, missed: Double)
     }
 }

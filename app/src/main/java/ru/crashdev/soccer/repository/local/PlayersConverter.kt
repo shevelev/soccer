@@ -11,12 +11,7 @@ class GamePlayersConverter {
         if (players != null) {
             return String.format(
                 Locale.US,
-                "%s,%s,%s,%s",
-                players.playerA1,
-                players.playerA2,
-                players.playerB1,
-                players.playerB2
-            )
+                "%s,%s,%s,%s", players.playerA1, players.playerA2, players.playerB1, players.playerB2)
         }
         return null
     }
@@ -25,7 +20,7 @@ class GamePlayersConverter {
     fun toGamePlayers(value: String?): GamePlayers? {
         if (value != null) {
             val pieces = value.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            return GamePlayers(pieces[0], pieces[1], pieces[2], pieces[3])
+            return GamePlayers(pieces[0].toLong(), pieces[1].toLong(), pieces[2].toLong(), pieces[3].toLong())
         }
         return null
     }
@@ -36,10 +31,7 @@ class GamePlayersConverter {
             return String.format(
                 Locale.US,
                 "%s,%s,%s,%s",
-                points.point_A1,
-                points.point_A2,
-                points.point_B1,
-                points.point_B2
+                points.point_A1, points.point_A2, points.point_B1, points.point_B2
             )
         }
         return null
@@ -49,12 +41,7 @@ class GamePlayersConverter {
     fun toGamePoints(value: String?): GamePoints? {
         if (value != null) {
             val pieces = value.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            return GamePoints(
-                pieces[0].toInt(),
-                pieces[1].toInt(),
-                pieces[2].toInt(),
-                pieces[3].toInt()
-            )
+            return GamePoints(pieces[0].toInt(), pieces[1].toInt(), pieces[2].toInt(), pieces[3].toInt())
         }
         return null
     }

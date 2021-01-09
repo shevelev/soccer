@@ -8,7 +8,7 @@ interface GamePlayContract {
 
     interface Presenter {
         fun playerSelected(player: String, position: Int)
-        fun loadPlayerList(): LiveData<List<Player>>
+        fun loadPlayerList()
         fun getPla(list: List<Player>)
         fun a1_plus(checked: Boolean)
         fun a2_plus(checked: Boolean)

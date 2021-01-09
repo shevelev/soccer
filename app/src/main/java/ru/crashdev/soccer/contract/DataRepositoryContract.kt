@@ -9,6 +9,6 @@ interface DataRepositoryContract {
     fun saveGame(game: Games)
 
     fun getDataPlayersFromLocal(): LiveData<List<Player>>
-    fun getDataActivePlayersFromLocal(): LiveData<List<Player>>
+    fun getDataActivePlayersFromLocal(): List<Player>
     fun savePlayer(player: Player)
 }

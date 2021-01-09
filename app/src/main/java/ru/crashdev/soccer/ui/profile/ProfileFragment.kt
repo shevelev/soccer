@@ -1,6 +1,7 @@
 package ru.crashdev.soccer.ui.profile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.nav_header.view.*
 import ru.crashdev.soccer.R
 import ru.crashdev.soccer.contract.ProfileContract
 import ru.crashdev.soccer.repository.model.Games
@@ -71,5 +73,16 @@ class ProfileFragment : Fragment(), ProfileContract.View {
     override fun showScorredAndMissed(allGames: Int, missedGames: Int, games: List<Games>) {
         this.allGame.text = allGames.toString()
         this.gamesListAdapter.loadItemList(games)
+    }
+
+    override fun showProgressBars(scored: Double, missed: Double) {
+
+        Log.d("qwe", "scored -> $scored, missed -> $missed")
+
+        this.progress_scored.progress = scored.toInt()
+        this.progress_scored_text.text = "${scored.toInt().toString()}%"
+
+        this.progress_def.progress = missed.toInt()
+        this.progress_def_text.text = "${missed.toInt().toString()}%"
     }
 }

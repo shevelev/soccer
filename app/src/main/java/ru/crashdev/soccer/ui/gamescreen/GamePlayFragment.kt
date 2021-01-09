@@ -36,13 +36,14 @@ class GamePlayFragment : Fragment(), GamePlayContract.View {
 
         presenter = GamePlayPresenter(view.context)
         presenter.setView(this)
+        presenter.loadPlayerList()
 
-        presenter.loadPlayerList().observe(viewLifecycleOwner, Observer { players ->
-            players?.let {
-                it.forEach { Log.d("qwe", "${it.playerId} - ${it.playerName}") }
-                presenter.getPla(players)
-            }
-        })
+//        presenter.loadPlayerList().observe(viewLifecycleOwner, Observer { players ->
+//            players?.let {
+//                it.forEach { Log.d("qwe", "loadPlayerList ${it.playerId} - ${it.playerName}") }
+//                presenter.getPla(players)
+//            }
+//        })
 
         //configureUI()
         configureSpinnerListeners()
@@ -126,11 +127,6 @@ class GamePlayFragment : Fragment(), GamePlayContract.View {
         }
     }
 
-//    private fun configureUI() {
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-//        title = getString(R.string.games_2x2)
-//    }
-
     private fun configureSpinnerListeners() {
         sp_playerA1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -201,7 +197,7 @@ class GamePlayFragment : Fragment(), GamePlayContract.View {
         }
 
         bt_new_game.setOnClickListener {
-            presenter.saveGame()
+            //presenter.saveGame()
         }
     }
 }

@@ -52,6 +52,7 @@ class AllGamesFragment : Fragment(), MainActivityContract.View {
             layoutManager = LinearLayoutManager(this.context)
             //addItemDecoration(DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL))
             adapter = gamesListAdapter
+            setBackgroundResource(R.drawable.qwe)
         }
 
         lifecycle.addObserver(presenter)

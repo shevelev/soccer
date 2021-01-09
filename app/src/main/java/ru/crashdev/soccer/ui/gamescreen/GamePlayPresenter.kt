@@ -1,14 +1,17 @@
 package ru.crashdev.soccer.ui.gamescreen
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.crashdev.soccer.contract.GamePlayContract
 import ru.crashdev.soccer.repository.local.LocalRepo
 import ru.crashdev.soccer.repository.model.*
 import ru.crashdev.soccer.utils.BasePresenter
+import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 class GamePlayPresenter(context: Context, private val generator: GameGenerator = GameGenerator()) :
@@ -18,22 +21,27 @@ class GamePlayPresenter(context: Context, private val generator: GameGenerator =
     private var points = GamePoints()
     private lateinit var game: Games
     private val repository = LocalRepo(context)
-    lateinit var gamers: MutableList<Player>
+    lateinit var gamers: List<Player>
 
     override val coroutineContext: CoroutineContext = Dispatchers.Main
 
     override fun playerSelected(player: String, position: Int) {
         when (player) {
-            "sp_playerA1" -> players.playerA1 = gamers[position].playerName
-            "sp_playerA2" -> players.playerA2 = gamers[position].playerName
-            "sp_playerB1" -> players.playerB1 = gamers[position].playerName
-            "sp_playerB2" -> players.playerB2 = gamers[position].playerName
+            "sp_playerA1" -> players.playerA1 = gamers[position].playerId
+            "sp_playerA2" -> players.playerA2 = gamers[position].playerId
+            "sp_playerB1" -> players.playerB1 = gamers[position].playerId
+            "sp_playerB2" -> players.playerB2 = gamers[position].playerId
         }
         updateGame()
     }
 
-    override fun loadPlayerList(): LiveData<List<Player>> {
-        return repository.getDataActivePlayers()
+    override fun loadPlayerList() {
+        launch(Dispatchers.IO) {
+            gamers = repository.getDataActivePlayers()
+            withContext(Dispatchers.Main) {
+                getView()?.configureSpinnerAdapters(gamers)
+            }
+        }
     }
 
     override fun getPla(list: List<Player>) {
@@ -75,12 +83,25 @@ class GamePlayPresenter(context: Context, private val generator: GameGenerator =
     }
 
     override fun saveGame() {
+
+        Log.d("qwe", "saveGame: ${Date()}")
+
         launch(Dispatchers.IO) {
-            repository.saveGame(getGame())
+            repository.saveGame(game)
+            repository.updatePlayer(game.players.playerA1, game.points.point_A1, game.pointB)
+            repository.updatePlayer(game.players.playerA2, game.points.point_A2, 0)
+            repository.updatePlayer(game.players.playerB1, game.points.point_B1, 0)
+            repository.updatePlayer(game.players.playerB2, game.points.point_B2, game.pointA)
+
+            Log.d("qwe", "--> ${game.players.playerA1}, ${game.points.point_A1}, ${game.pointB}")
+            Log.d("qwe", "--> ${game.players.playerA2}, ${game.points.point_A2}, 0")
+            Log.d("qwe", "--> ${game.players.playerB1}, ${game.points.point_B1}, 0")
+            Log.d("qwe", "--> ${game.players.playerB2}, ${game.points.point_B2}, ${game.pointA}")
         }
     }
 
     private fun updateGame() {
+        Log.d("qwe", "updateGame: ${Date()}")
         game = getGame()
         getView()?.showPointsA1(game.points.point_A1)
         getView()?.showPointsA2(game.points.point_A2)
@@ -102,6 +123,7 @@ class GamePlayPresenter(context: Context, private val generator: GameGenerator =
     }
 
     private fun getGame(): Games {
+        Log.d("qwe", "getGame: ${Date()}")
         game = generator.generateGames(
             players,
             points,
