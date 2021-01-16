@@ -1,4 +1,4 @@
-package ru.crashdev.soccer.ui.addplayersscreen
+package ru.crashdev.soccer.ui.addplayers
 
 import android.os.Bundle
 import android.text.Editable
@@ -8,12 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_add_player.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.crashdev.soccer.R
-import ru.crashdev.soccer.contract.AddPlayerContract
 
-class AddPlayerFragment : Fragment(), AddPlayerContract.View {
+class AddPlayerFragment : Fragment(){
 
-    lateinit var presenter: AddPlayerPresenter
+    private val viewModel by viewModel<AddPlayerViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,37 +31,28 @@ class AddPlayerFragment : Fragment(), AddPlayerContract.View {
 
         activity?.title = "Добавление игрока"
 
-        presenter = AddPlayerPresenter(view.context)
-        presenter.setView(this)
-
         configureClickListeners()
         configureEditText()
     }
 
     private fun configureClickListeners() {
         bt_add_player.setOnClickListener {
-            presenter.savePlayer()
+            viewModel.savePlayer()
             activity?.onBackPressed()
-            //requireActivity().supportFragmentManager.popBackStack()
         }
     }
-
 
     private fun configureEditText() {
         et_add_player_name.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                presenter.updateName(s.toString())
+                viewModel.updateName(s.toString())
             }
         })
     }
 
     companion object {
         fun newInstance() = AddPlayerFragment()
-    }
-
-    override fun prompt(string: String?) {
-        TODO("Not yet implemented")
     }
 }

@@ -5,10 +5,11 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Player(
+    var playerName: String,
+    var scoredBalls: Int = 0,
+    var missedBalls: Int = 0,
+    var isActive: Boolean = true
+) {
     @PrimaryKey(autoGenerate = true)
-    val playerId: Long,
-    val playerName: String,
-    val scoredBalls: Int = 0,
-    val missedBalls: Int = 0,
-    val isActive: Boolean = true
-)
+    var playerId: Long = 0
+}

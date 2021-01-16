@@ -1,27 +1,16 @@
-package ru.crashdev.soccer.ui.playersscreen
+package ru.crashdev.soccer.ui.playerslist
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.players_list_item.view.*
 import ru.crashdev.soccer.R
-import ru.crashdev.soccer.contract.PlayersListContract
 import ru.crashdev.soccer.repository.model.Player
 
-class PlayersViewHolder(private val presenter: PlayersListPresenter, itemView: View) :
-    RecyclerView.ViewHolder(itemView),
-    PlayersListContract.ItemView {
-
-//    init {
-//        itemView.setOnClickListener {
-//            // What to do here, we only have the item's position? Call the presenter.
-//            presenter.onItemClicked(adapterPosition)
-//        }
-//    }
-
-    override fun bindItem(item: Player) {
+class PlayersViewHolder(itemView: View, private val viewModel: PlayersListViewModel) :
+    RecyclerView.ViewHolder(itemView) {
+    fun bindItem(item: Player) {
         itemView.playerId.text = item.playerId.toString()
         itemView.playerName.text = item.playerName
         itemView.playerScored.text = item.scoredBalls.toString()
@@ -29,7 +18,7 @@ class PlayersViewHolder(private val presenter: PlayersListPresenter, itemView: V
         itemView.playerActive.isChecked = item.isActive
 
         itemView.playerActive.setOnClickListener {
-            presenter.updateIsActive(item.playerId, itemView.playerActive.isChecked)
+            viewModel.updateIsActive(item.playerId, itemView.playerActive.isChecked)
         }
 
         itemView.playerName.setOnClickListener {

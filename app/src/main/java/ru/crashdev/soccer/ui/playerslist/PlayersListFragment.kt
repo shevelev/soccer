@@ -1,4 +1,4 @@
-package ru.crashdev.soccer.ui.playersscreen
+package ru.crashdev.soccer.ui.playerslist
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,12 +12,13 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_players_list.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.crashdev.soccer.R
-import ru.crashdev.soccer.contract.PlayersListContract
+import ru.crashdev.soccer.repository.model.Player
 
-class PlayersListFragment : Fragment(), PlayersListContract.View {
+class PlayersListFragment : Fragment() {
 
-    lateinit var presenter: PlayersListPresenter
+    private val viewModel by viewModel<PlayersListViewModel>()
     lateinit var playersListAdapter: PlayersListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,13 +37,12 @@ class PlayersListFragment : Fragment(), PlayersListContract.View {
 
         activity?.title = "Игроки"
 
-        presenter = PlayersListPresenter(view.context)
-        presenter.setView(this)
+        playersListAdapter = PlayersListAdapter()
+        playersListAdapter.setView(viewModel)
 
-        playersListAdapter = PlayersListAdapter(presenter)
-
-        presenter.getData().observe(viewLifecycleOwner, Observer { players ->
+        viewModel.getData().observe(viewLifecycleOwner, Observer { players ->
             players?.let {
+                viewModel.items = it as MutableList<Player>
                 playersListAdapter.loadItemList(players)
             }
         })
@@ -65,7 +65,7 @@ class PlayersListFragment : Fragment(), PlayersListContract.View {
 
         val itemTouchCallback = object : SwipeItemTouchHelper(activity?.applicationContext) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                presenter.deletePlayer(viewHolder.adapterPosition)
+                viewModel.deletePlayer(viewHolder.adapterPosition)
             }
         }
 

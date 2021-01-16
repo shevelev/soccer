@@ -6,21 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.android.synthetic.main.nav_header.view.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.crashdev.soccer.R
-import ru.crashdev.soccer.contract.ProfileContract
-import ru.crashdev.soccer.repository.model.Games
+import ru.crashdev.soccer.repository.model.Game
 import ru.crashdev.soccer.repository.model.Player
-import ru.crashdev.soccer.ui.mainscreen.GamesListAdapter
+import ru.crashdev.soccer.repository.model.Profile
+import ru.crashdev.soccer.ui.gameslist.GamesListAdapter
 
 private const val ARG_PARAM1 = "playerId"
 
-class ProfileFragment : Fragment(), ProfileContract.View {
+class ProfileFragment : Fragment() {
+
+    private val viewModel by viewModel<ProfileViewModel>()
     private var playerId: Long = 0L
-    lateinit var presenter: ProfilePresenter
+
     var gamesListAdapter: GamesListAdapter = GamesListAdapter()
 
 
@@ -42,17 +43,25 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         super.onViewCreated(view, savedInstanceState)
 
         activity?.title = "Профиль игрока"
-        presenter = ProfilePresenter(view.context)
-        presenter.setView(this)
 
-        presenter.loadData(playerId)
+        viewModel.loadData(playerId)
+        showAll(viewModel.profile)
 
         recyclerViewPlayers.apply {
             hasFixedSize()
             layoutManager = LinearLayoutManager(this.context)
             adapter = gamesListAdapter
         }
+    }
 
+    private fun showAll(profile: Profile) {
+        showPlayer(profile.player)
+        showScorredAndMissed(profile.countGame, profile.missedGame, profile.games)
+
+        val sc = (profile.player.scoredBalls.toDouble() / (profile.countGame * 10)) * 100
+        val mi = 100 - ((profile.player.missedBalls.toDouble() * 100) / (profile.missedGame * 10))
+
+        showProgressBars(sc, mi)
     }
 
     companion object {
@@ -64,25 +73,25 @@ class ProfileFragment : Fragment(), ProfileContract.View {
             }
     }
 
-    override fun showPlayer(player: Player) {
+    fun showPlayer(player: Player) {
         this.playerName.text = player.playerName
         this.playerScored.text = player.scoredBalls.toString()
         this.playerMissed.text = player.missedBalls.toString()
     }
 
-    override fun showScorredAndMissed(allGames: Int, missedGames: Int, games: List<Games>) {
+    fun showScorredAndMissed(allGames: Int, missedGames: Int, games: List<Game>) {
         this.allGame.text = allGames.toString()
         this.gamesListAdapter.loadItemList(games)
     }
 
-    override fun showProgressBars(scored: Double, missed: Double) {
+    fun showProgressBars(scored: Double, missed: Double) {
 
         Log.d("qwe", "scored -> $scored, missed -> $missed")
 
         this.progress_scored.progress = scored.toInt()
-        this.progress_scored_text.text = "${scored.toInt().toString()}%"
+        this.progress_scored_text.text = "$scored%"
 
         this.progress_def.progress = missed.toInt()
-        this.progress_def_text.text = "${missed.toInt().toString()}%"
+        this.progress_def_text.text = "$missed%"
     }
 }

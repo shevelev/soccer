@@ -1,4 +1,4 @@
-package ru.crashdev.soccer.ui.gamescreen
+package ru.crashdev.soccer.ui.gameplay
 
 import android.os.Bundle
 import android.util.Log
@@ -8,18 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fragment_game_play.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.crashdev.soccer.R
-import ru.crashdev.soccer.contract.GamePlayContract
+import ru.crashdev.soccer.repository.model.Game
 import ru.crashdev.soccer.repository.model.Player
 
-class GamePlayFragment : Fragment(), GamePlayContract.View {
+class GamePlayFragment : Fragment() {
 
-    lateinit var presenter: GamePlayPresenter
+    private val viewModel by viewModel<GamePlayViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     override fun onCreateView(
@@ -34,54 +35,47 @@ class GamePlayFragment : Fragment(), GamePlayContract.View {
 
         activity?.title = "Игра 2х2"
 
-        presenter = GamePlayPresenter(view.context)
-        presenter.setView(this)
-        presenter.loadPlayerList()
-
-//        presenter.loadPlayerList().observe(viewLifecycleOwner, Observer { players ->
+//        viewModel.loadPlayerList().observe(viewLifecycleOwner, Observer { players ->
 //            players?.let {
-//                it.forEach { Log.d("qwe", "loadPlayerList ${it.playerId} - ${it.playerName}") }
-//                presenter.getPla(players)
+//                Log.d("qwe", "players list size: ${it.size}")
+//                viewModel.gamers = it
+//                configureSpinnerAdapters(it)
 //            }
 //        })
 
-        //configureUI()
+        observerMy()
+        configureSpinnerAdapters(viewModel.gamers)
         configureSpinnerListeners()
         configureClickListeners()
 
+    }
+
+    private fun observerMy() {
+        viewModel.game.observe(viewLifecycleOwner, {
+            showAll(it)
+        })
+    }
+
+    private fun showAll(it: Game) {
+        tv_a1.text = it.player1Point.toString()
+        tv_a2.text = it.player2Point.toString()
+        tv_b1.text = it.player3Point.toString()
+        tv_b2.text = it.player4Point.toString()
+        tv_sum_a.text = it.pointA.toString()
+        tv_sum_b.text = it.pointB.toString()
+        progressBarA.setProgress(it.pointA)
+        progressBarB.setProgress(it.pointB)
+
+        if (it.pointA == 10 || it.pointB == 10) {
+            showWinners("Game Over")
+        }
     }
 
     companion object {
         fun newInstance() = GamePlayFragment()
     }
 
-    override fun showPointsA1(point: Int) {
-        this.tv_a1.text = point.toString()
-    }
-
-    override fun showPointsA2(point: Int) {
-        this.tv_a2.text = point.toString()
-    }
-
-    override fun showPointsB1(point: Int) {
-        this.tv_b1.text = point.toString()
-    }
-
-    override fun showPointsB2(point: Int) {
-        this.tv_b2.text = point.toString()
-    }
-
-    override fun showPointsA(point: Int) {
-        this.tv_sum_a.text = point.toString()
-        this.progressBarA.setProgress(point)
-    }
-
-    override fun showPointsB(point: Int) {
-        this.tv_sum_b.text = point.toString()
-        this.progressBarB.setProgress(point)
-    }
-
-    override fun showWinners(message: String) {
+    fun showWinners(message: String) {
         this.bt_new_game.visibility = View.VISIBLE
         this.winner.text = message
         disableButtons()
@@ -98,7 +92,21 @@ class GamePlayFragment : Fragment(), GamePlayContract.View {
         this.sp_playerB2.isEnabled = false
     }
 
-    override fun configureSpinnerAdapters(list: List<Player>) {
+    private fun enableButtons() {
+        this.bt_a1_plus.isEnabled = true
+        this.bt_a2_plus.isEnabled = true
+        this.bt_b1_plus.isEnabled = true
+        this.bt_b2_plus.isEnabled = true
+        this.sp_playerA1.isEnabled = true
+        this.sp_playerA2.isEnabled = true
+        this.sp_playerB1.isEnabled = true
+        this.sp_playerB2.isEnabled = true
+    }
+
+    fun configureSpinnerAdapters(list: List<Player>) {
+
+        Log.d("qwe","configureSpinnerAdapters")
+
         val playersList = list.map { it -> it.playerName }
 
         sp_playerA1.adapter = getActivity()?.getBaseContext()?.let {
@@ -135,7 +143,7 @@ class GamePlayFragment : Fragment(), GamePlayContract.View {
                 position: Int,
                 id: Long
             ) {
-                presenter.playerSelected("sp_playerA1", position)
+                viewModel.playerSelected("sp_playerA1", position)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -148,7 +156,7 @@ class GamePlayFragment : Fragment(), GamePlayContract.View {
                 position: Int,
                 id: Long
             ) {
-                presenter.playerSelected("sp_playerA2", position)
+                viewModel.playerSelected("sp_playerA2", position)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -161,7 +169,7 @@ class GamePlayFragment : Fragment(), GamePlayContract.View {
                 position: Int,
                 id: Long
             ) {
-                presenter.playerSelected("sp_playerB1", position)
+                viewModel.playerSelected("sp_playerB1", position)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -174,7 +182,7 @@ class GamePlayFragment : Fragment(), GamePlayContract.View {
                 position: Int,
                 id: Long
             ) {
-                presenter.playerSelected("sp_playerB2", position)
+                viewModel.playerSelected("sp_playerB2", position)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -183,21 +191,21 @@ class GamePlayFragment : Fragment(), GamePlayContract.View {
 
     private fun configureClickListeners() {
         bt_a1_plus.setOnClickListener {
-            presenter.a1_plus(switch1.isChecked)
+            viewModel.a1_plus(switch1.isChecked)
         }
 
         bt_a2_plus.setOnClickListener {
-            presenter.a2_plus(switch1.isChecked)
+            viewModel.a2_plus(switch1.isChecked)
         }
         bt_b1_plus.setOnClickListener {
-            presenter.b1_plus(switch1.isChecked)
+            viewModel.b1_plus(switch1.isChecked)
         }
         bt_b2_plus.setOnClickListener {
-            presenter.b2_plus(switch1.isChecked)
+            viewModel.b2_plus(switch1.isChecked)
         }
 
         bt_new_game.setOnClickListener {
-            //presenter.saveGame()
+            activity?.onBackPressed()
         }
     }
 }

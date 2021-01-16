@@ -1,4 +1,4 @@
-package ru.crashdev.soccer.ui.playersscreen
+package ru.crashdev.soccer.ui.playerslist
 
 import android.content.Context
 import android.graphics.*
