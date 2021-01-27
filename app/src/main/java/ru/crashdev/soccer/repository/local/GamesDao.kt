@@ -34,6 +34,9 @@ interface GamesDao {
     @Delete
     fun deletePlayer(player: Player)
 
+    @Delete
+    fun deleteGame(game: Game)
+
     @Query("select * from player where playerId = :playerId")
     fun getProfilePlayer(playerId: Long): Player
 

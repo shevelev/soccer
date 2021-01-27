@@ -7,17 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_all_games.fab
-import kotlinx.android.synthetic.main.fragment_all_games.recyclerViewPlayers
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import ru.crashdev.soccer.R
+import ru.crashdev.soccer.databinding.FragmentAllGamesBinding
+import ru.crashdev.soccer.repository.model.Game
 
 class AllGamesFragment : Fragment() {
 
     private val viewModel by viewModel<GamesListViewModel>()
-    var gamesListAdapter: GamesListAdapter = GamesListAdapter()
+    private var _binding: FragmentAllGamesBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +25,8 @@ class AllGamesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_all_games, container, false)
+        _binding = FragmentAllGamesBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,26 +34,23 @@ class AllGamesFragment : Fragment() {
 
         activity?.title = "Статистика игр"
 
+        this.binding.let { viewModel.setBinder(it) }
+
         viewModel.getData().observe(viewLifecycleOwner, Observer { games ->
             games?.let {
-                gamesListAdapter.loadItemList(games)
+                viewModel.items = it as MutableList<Game>
+                viewModel.loadItems(it)
             }
         })
-
-        recyclerViewPlayers.apply {
-            hasFixedSize()
-            layoutManager = LinearLayoutManager(this.context)
-            adapter = gamesListAdapter
-            setBackgroundResource(R.drawable.qwe)
-        }
-
-        fab.setOnClickListener {
-            it.findNavController().navigate(R.id.gamePlayFragment)
-        }
-
     }
+
 
     companion object {
         fun newInstance() = AllGamesFragment()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

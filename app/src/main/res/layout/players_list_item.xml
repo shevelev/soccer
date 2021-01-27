@@ -30,22 +30,43 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="id" />
 
+    <ImageView
+        android:id="@+id/iv_goal"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/goal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/playerScored" />
+
     <TextView
         android:id="@+id/playerScored"
-        android:layout_width="wrap_content"
+        android:layout_width="32dp"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/playerMissed"
+        app:layout_constraintEnd_toStartOf="@+id/iv_missed"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBaseline_toBaselineOf="@+id/playerName"
         tools:text="scored" />
 
+    <ImageView
+        android:id="@+id/iv_missed"
+        android:src="@drawable/missed"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/playerMissed"
+        android:layout_marginEnd="8dp"
+        />
+
     <TextView
         android:id="@+id/playerMissed"
-        android:layout_width="wrap_content"
+        android:layout_width="32dp"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textStyle="bold"

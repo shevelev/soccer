@@ -1,18 +1,18 @@
 package ru.crashdev.soccer.ui.gameslist
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ru.crashdev.soccer.R
+import ru.crashdev.soccer.databinding.GamesListItemBinding
 import ru.crashdev.soccer.repository.model.Game
-import ru.crashdev.soccer.utils.inflate
 
-class GamesListAdapter: RecyclerView.Adapter<GamesViewHolder>() {
+class GamesListAdapter : RecyclerView.Adapter<GamesViewHolder>() {
 
     private var listOfItem = ArrayList<Game>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GamesViewHolder {
-        val inflatedView = parent.inflate(R.layout.games_list_item, false)
-        return GamesViewHolder(inflatedView)
+        val binding = GamesListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return GamesViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: GamesViewHolder, position: Int) {

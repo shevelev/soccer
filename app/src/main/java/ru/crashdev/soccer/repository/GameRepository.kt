@@ -43,6 +43,10 @@ class GameRepository(private val gamesDao: GamesDao) {
         gamesDao.deletePlayer(player)
     }
 
+    fun deleteGame(game: Game) {
+        gamesDao.deleteGame(game)
+    }
+
     fun updateActive(playerId: Long, checked: Boolean) {
         gamesDao.updateActive(playerId, checked)
     }

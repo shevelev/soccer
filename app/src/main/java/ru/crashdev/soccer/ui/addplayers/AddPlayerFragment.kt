@@ -7,13 +7,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.fragment_add_player.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import ru.crashdev.soccer.R
+import ru.crashdev.soccer.databinding.FragmentAddPlayerBinding
 
 class AddPlayerFragment : Fragment(){
 
     private val viewModel by viewModel<AddPlayerViewModel>()
+    private var _binding: FragmentAddPlayerBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +24,9 @@ class AddPlayerFragment : Fragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_add_player, container, false)
+        _binding = FragmentAddPlayerBinding.inflate(inflater, container, false)
+        val view = binding.root
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,25 +34,8 @@ class AddPlayerFragment : Fragment(){
 
         activity?.title = "Добавление игрока"
 
-        configureClickListeners()
-        configureEditText()
-    }
+        this.binding.let { viewModel.setBinder(it) }
 
-    private fun configureClickListeners() {
-        bt_add_player.setOnClickListener {
-            viewModel.savePlayer()
-            activity?.onBackPressed()
-        }
-    }
-
-    private fun configureEditText() {
-        et_add_player_name.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {}
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.updateName(s.toString())
-            }
-        })
     }
 
     companion object {
